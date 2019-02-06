@@ -1,33 +1,40 @@
 cc_library_shared {
     name: "libboost_container",
     vendor_available: true,
+    rtti: true,
     srcs: [
-        "src/dlmalloc_2_8_6.c",
         "src/unsynchronized_pool_resource.cpp",
         "src/global_resource.cpp",
         "src/synchronized_pool_resource.cpp",
         "src/alloc_lib.c",
         "src/pool_resource.cpp",
-        "src/dlmalloc_ext_2_8_6.c",
         "src/monotonic_buffer_resource.cpp",
         "src/dlmalloc.cpp",
     ],
     export_include_dirs: ["include"],
     header_libs: [
         "libboost_config",
+        "libboost_core",
         "libboost_predef",
+        "libboost_move",
+        "libboost_assert",
+        "libboost_static_assert",
+        "libboost_intrusive",
     ],
     target: {
         android: {
             cflags: [
                 "-fPIC",
                 "-DPIC",
+                "-DUSE_LOCKS=1",
+                "-Wno-error=null-pointer-arithmetic",
             ],
         },
         not_windows: {
             cflags: [
                 "-fPIC",
                 "-DPIC",
+                "-Wno-error=null-pointer-arithmetic",
             ],
          },
     },
